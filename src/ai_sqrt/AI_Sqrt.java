@@ -22,20 +22,35 @@ public class AI_Sqrt {
         // TODO code application logic here
         float A = (float)Math.random()*100;
         float B =(float)Math.sqrt(A) ;
-        float[][] Examples = new float[100][2];
-        for(int i = 0 ; i < 100;i++){
+        int TrainingSetNum = 1000;
+        float[][] Examples = new float[(int)(0.8*TrainingSetNum)][2];
+        float[][] TestSet = new float [(int)(0.2*TrainingSetNum)][2];
+        for(int i = 0 ; i < (int)0.8*TrainingSetNum;i++){
             A = (float)Math.random()*100;
             B =(float)Math.sqrt(A) ;
             Examples [i][0] = A;
             Examples [i][1] = B;
+            
         }
+        
+        double Acc = 0;
+        for (int i = 0; i<(int)(0.2*TrainingSetNum); i++)
+        {
+            A = (float)Math.random()*100;
+            B =(float)Math.sqrt(A) ;
+            TestSet [i][0] = A;
+            TestSet [i][1] = B;
+           Acc += Math.abs(TestSet[i][1]-AI(TestSet[1][0]));
+        }
+        Acc=Acc/(int)(0.2*TrainingSetNum);
+        System.out.println("Solution accuracy%: "+Acc);
                //   List<Integer> ToExpand = new ArrayList();
-        float C = AI(A);
+       // float C = AI(A);
     }
     public static float AI( float A)
     {
         
-      return A;  
+      return A/4;  
     }
             
     
