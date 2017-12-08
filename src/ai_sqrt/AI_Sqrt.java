@@ -22,7 +22,13 @@ public class AI_Sqrt {
         // TODO code application logic here
         float A = (float)Math.random()*100;
         float B =(float)Math.sqrt(A) ;
-        
+        float[][] Examples = new float[100][2];
+        for(int i = 0 ; i < 100;i++){
+            A = (float)Math.random()*100;
+            B =(float)Math.sqrt(A) ;
+            Examples [i][0] = A;
+            Examples [i][1] = B;
+        }
                //   List<Integer> ToExpand = new ArrayList();
         float C = AI(A);
     }
