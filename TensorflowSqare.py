@@ -20,8 +20,12 @@ total_Batch = batch_size*training_epochs
 # Network Parameters
 n_hidden_1 = 3 # 1st layer number of neurons
 n_hidden= 3 # MNIST total classes (0-9 digits)
-
+n_input = 1 # MNIST data input (img shape: 28*28)
+n_classes = 1 # MNIST total classes (0-9 digits)
 # tf Graph input
+# Network Parameters
+n_hidden_1 = 256 # 1st layer number of neurons
+n_hidden_2 = 256 # 2nd layer number of neurons
 X = tf.placeholder("float", [None, n_input])
 Y = tf.placeholder("float", [None, n_classes])
 
@@ -29,9 +33,7 @@ Y = tf.placeholder("float", [None, n_classes])
 weights = {
     'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
     'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'out': tf.Variabl_2 = 3 # 2nd layer number of neurons
-n_input = 1 # MNIST data input (img shape: 28*28)
-n_classes e(tf.random_normal([n_hidden_2, n_classes]))
+    'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes])) # 2nd layer number of neurons
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
@@ -70,8 +72,9 @@ with tf.Session() as sess:
         total_batch = int(mnist.train.num_examples/batch_size)
         # Loop over all batches
         for i in range(total_batch):
-            batch_x = tf.Variable(linspace(0,100,batch_size))
-            batch_y = batch
+            
+            batch_x = tf.Variable(3)
+            batch_y = tf.Variable(9)
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([train_op, loss_op], feed_dict={X: batch_x,
                                                             Y: batch_y})
