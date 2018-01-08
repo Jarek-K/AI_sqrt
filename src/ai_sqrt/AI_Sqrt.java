@@ -20,7 +20,7 @@ public class AI_Sqrt {
     public static int layerNum = 2;
     public static int neuronPerLayerNum = 3;
     public static float[] Weights = new float[(layerNum - 1) * neuronPerLayerNum * neuronPerLayerNum + neuronPerLayerNum * 2];
-    public static float LearningRate = 1;
+    public static float LearningRate = 0.5f;
     public static float[] Bias = new float[layerNum * neuronPerLayerNum + 1];
     public static float Beta = 1;
 
@@ -40,10 +40,10 @@ for(int i = 0 ;i< Bias.length;i++){
     Bias[i]= (float)Math.random();
 }
         for (int i = 0; i < (int) (0.8 * TrainingSetNum); i++) {
-            A = (float) (Math.random() );
+            A = (float) (Math.random()-0.5f );
             B = (float) Math.sqrt(A);
             Examples[i][0] = A;
-            if(A>0.5f)
+            if(A>0)
             Examples[i][1] = 1;
             else
                  Examples[i][1] = 0;
@@ -55,10 +55,10 @@ for(int i = 0 ;i< Bias.length;i++){
         double Acc = 0;
         for (int i = 0; i < (int) (0.2 * TrainingSetNum); i++) {
             
-             A = (float) (Math.random() );
+             A = (float) (Math.random()-0.5f );
             B = (float) Math.sqrt(A);
             TestSet[i][0] = A;
-            if(A>0.5f){
+            if(A>0){
             TestSet[i][1] = 1;
              if( AI(TestSet[i][0] )[layerNum * neuronPerLayerNum]>0.9f)
             Acc +=1;
@@ -85,7 +85,9 @@ for(int i = 0 ;i< Bias.length;i++){
                     tmp += Weights[Weights.length - neuronPerLayerNum - 1 + j] * nodes[nodes.length - neuronPerLayerNum - 1 + j];
 
                 }
+                System.out.println("tmp at node 6=: "+tmp);
                 tmp += Bias[Bias.length - 1];
+                 System.out.println("tmp at node 6 + bias=: "+tmp);
                 nodes[nodes.length - 1] = Sigmoid(tmp);
             } else if (i != 0) {
                 for (int j = 0; j < neuronPerLayerNum; j++) {
@@ -110,6 +112,8 @@ for(int i = 0 ;i< Bias.length;i++){
             }
         }
         System.out.println("Input: "+A+" Output: "+ nodes[nodes.length-1]);
+        for(int o=0;o<nodes.length;o++)
+            System.out.println("Nodes "+o+" : "+nodes[o]);
         return nodes;
     }
 
@@ -148,7 +152,7 @@ for(int i = 0 ;i< Bias.length;i++){
             } else if (i != 0) {// hidden neurons
                 for (int j = 0; j < neuronPerLayerNum; j++) {
                     float tmp = 0;
-                    float tmpDelt = 0;
+                   
                     int index = 0;
                     for (int k = 0; k < neuronPerLayerNum; k++) {
                         tmp += Weights[i * neuronPerLayerNum + j * neuronPerLayerNum + k] * Solved[k];
@@ -183,7 +187,7 @@ for(int i = 0 ;i< Bias.length;i++){
                     ;
                    
 						
-                        TempWeights[j] -= 2 * LearningRate * Beta * E[0] * Sigmoid(1 - Sigmoid(tmp)) * tmpDelt;;
+                        TempWeights[j] -= 2 * LearningRate * Beta * E[0] * Sigmoid(1 - Sigmoid(tmp)) * tmpDelt;
 
                     Bias[j] -= 2 * LearningRate * Beta * Sigmoid(1 - Sigmoid(tmp)) * tmpDelt;
 
