@@ -37,7 +37,7 @@ public class AI_Sqrt {
             Weights[i] = (float) Math.random(); // maybe - 0.5
         }
 for(int i = 0 ;i< Bias.length;i++){
-    Bias[i]= (float)Math.random();
+    Bias[i]= -(float)Math.random();
 }
         for (int i = 0; i < (int) (0.8 * TrainingSetNum); i++) {
             A = (float) (Math.random()-0.5f );
@@ -64,7 +64,7 @@ for(int i = 0 ;i< Bias.length;i++){
             Acc +=1;
             }
             else{
-                 TestSet[i][1] = 0;
+                 TestSet[i][1] =0;
             if( AI(TestSet[i][0] )[layerNum * neuronPerLayerNum]<0.1f)
             Acc +=1;
             }
@@ -73,14 +73,14 @@ for(int i = 0 ;i< Bias.length;i++){
         System.out.println("Solution accuracy%: " + Acc);
         //   List<Integer> ToExpand = new ArrayList();
         // float C = AI(A);
-        System.out.println("sqrt 64: " + AI(0.14f)[layerNum * neuronPerLayerNum]);
+       
     }
 
     public static float[] AI(float A) {
         float[] nodes = new float[layerNum * neuronPerLayerNum + 1];
         for (int i = 0; i < layerNum + 1; i++) {
             if (i == layerNum) {
-                int tmp = 0;
+                float tmp = 0;
                 for (int j = 0; j < neuronPerLayerNum; j++) {
                     tmp += Weights[Weights.length - neuronPerLayerNum - 1 + j] * nodes[nodes.length - neuronPerLayerNum - 1 + j];
 
@@ -141,13 +141,13 @@ for(int i = 0 ;i< Bias.length;i++){
                 tmp += OldBias[OldBias.length - 1];
 
                 for (int p = 0; p < neuronPerLayerNum; p++) {
-                    Delta[Weights.length - 1 - p] = (E[1] - Solved[Solved.length - 1]) * Sigmoid(1 - Sigmoid(tmp));
-                    TempWeights[Weights.length - 1 - p] -= 2 * LearningRate * Beta * Solved[Solved.length - 2 - p] * Delta[Weights.length - 1 - p];
+                    Delta[Weights.length - 1 - p] = Math.abs(E[1] - Solved[Solved.length - 1]) * Sigmoid(1 - Sigmoid(tmp));
+                    TempWeights[Weights.length - 1 - p] -= 2 * LearningRate * Beta * Delta[Weights.length - 1 - p] * Solved[Solved.length - 2 - p];
                     Delta[Weights.length - 1 - p] *= Weights[Weights.length - p - 1];
                     c++;
 
                 }
-                Bias[Bias.length - 1] -= 2 * LearningRate * Beta * (E[1] - Solved[Solved.length - 1]) * Sigmoid(1 - Sigmoid(tmp));
+                Bias[Bias.length - 1] += 2 * LearningRate * Beta *Math.abs(E[1] - Solved[Solved.length - 1]) * Sigmoid(1 - Sigmoid(tmp));
 
             } else if (i != 0) {// hidden neurons
                 for (int j = 0; j < neuronPerLayerNum; j++) {
@@ -168,7 +168,7 @@ for(int i = 0 ;i< Bias.length;i++){
                         Delta[index] *= Weights[index];
 
                     }
-                    Bias[j + i * neuronPerLayerNum] -= 2 * LearningRate * Beta * Sigmoid(1 - Sigmoid(tmp)) * Delta[Weights.length - neuronPerLayerNum + j];
+                    Bias[j + i * neuronPerLayerNum] += 2 * LearningRate * Beta * Sigmoid(1 - Sigmoid(tmp)) * Delta[Weights.length - neuronPerLayerNum + j];
 
                 }
             } else// for input layer neurons
@@ -189,7 +189,7 @@ for(int i = 0 ;i< Bias.length;i++){
 						
                         TempWeights[j] -= 2 * LearningRate * Beta * E[0] * Sigmoid(1 - Sigmoid(tmp)) * tmpDelt;
 
-                    Bias[j] -= 2 * LearningRate * Beta * Sigmoid(1 - Sigmoid(tmp)) * tmpDelt;
+                    Bias[j] += 2 * LearningRate * Beta * Sigmoid(1 - Sigmoid(tmp)) * tmpDelt;
 
                 }
             }
